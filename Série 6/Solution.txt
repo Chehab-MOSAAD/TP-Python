@@ -1,0 +1,249 @@
+#Writer: Chehab MOSAAD - 1A Informatique - Programmation en python – Série 6
+
+import numpy as np  #Pour l'exo 3
+import os.path  #Pour l'exo 4 et 6
+
+print(
+    "Bonjour, \n C'est le TD Programmation en python – Série 6 (Fait par: Chehab MOSAAD)"
+)
+
+while True:
+  print("\nMenu des exercices :")
+  print("1. Exercice 1 - Recherche d’une sous-chaîne dans une séquence d’ADN.")
+  print(
+      "2. Exercice 2 - Calcul du nombre de combinaisons possibles avec des dés."
+  )
+  print(
+      "3. Exercice 3 - Manipulation de matrices carrées avec des listes de listes."
+  )
+  print("4. Exercice 4 - Comptage du nombre de lignes d’un fichier texte.")
+  print("5. Exercice 5 -  Intersection de mots entre deux fichiers texte.")
+  print("6. Exercice 6 -  Insertion d’une ligne dans un fichier texte.")
+  print(
+      "7. Exercice 7 - Gestion des résultats des étudiants de la première année STRI."
+  )
+  print("8. Quitter\n")
+
+  choix = input("Choisissez un exercice (1, 2, ... ,7 ou 8 pour quitter) : ")
+
+  if choix == '1':
+    chaine = input("Entrez la chaîne d'ADN: ")
+    sequence = input("Entrez la séquence d'ADN: ")
+
+    def est_valide(adn):
+      for lettre in adn:
+        if lettre not in "ACGT":
+          return False
+      return True
+
+    if not est_valide(chaine):
+      print("La chaîne d'ADN n'est pas valide.")
+      exit()
+    if not est_valide(sequence):
+      print("La séquence d'ADN n'est pas valide.")
+      exit()
+
+    nombre = sequence.count(chaine)
+    print("Le nombre d'occurrences de la chaîne ", chaine,
+          " dans la séquence ", sequence, " est ", nombre)
+
+  elif choix == '2':
+    des = int(input("Entrez le nombre de dés (2 ou 3): "))
+    somme = int(input("Entrez la somme désirée: "))
+
+    if des not in [2, 3]:
+      print("Le nombre de dés n'est pas valide.")
+      exit()
+    if des == 2 and (somme < 2 or somme > 12):
+      print("La somme n'est pas valide pour 2 dés.")
+      exit()
+    if des == 3 and (somme < 3 or somme > 18):
+      print("La somme n'est pas valide pour 3 dés.")
+      exit()
+
+    dp = [[0 for j in range(somme + 1)] for i in range(des + 1)]
+    dp[0][0] = 1
+
+    for i in range(1, des + 1):
+      for j in range(1, somme + 1):
+        for k in range(1, 7):
+          if j - k >= 0:
+            dp[i][j] += dp[i - 1][j - k]
+
+    resultat = dp[des][somme]
+
+    print("Le nombre de façons d'obtenir ", somme, " avec ", des, " dés est ",
+          resultat)
+
+  elif choix == '3':
+
+    def creer_M1(N):
+      elements = []
+      for i in range(0, 2 * N * N, 2):
+        elements.append(i)
+      M1 = np.array(elements).reshape(N, N)
+      return M1
+
+    def creer_M2(N):
+      M2 = np.eye(N)
+      return M2
+
+    def calculer_M3(N):
+      M1 = creer_M1(N)
+      M2 = creer_M2(N)
+      M3 = 5 * M1 - 2 * M2
+      return M3
+
+    N = int(input("Entrez N (entier premier) : "))
+    print("M1 =")
+    print(creer_M1(N))
+    print("M2 =")
+    print(creer_M2(N))
+    print("M3 =")
+    print(calculer_M3(N))
+
+  elif choix == '4':
+    nom_fichier = input("Entrez le nom du fichier: ")
+
+    if os.path.isfile(nom_fichier):
+      fichier = open(nom_fichier, "r")
+      nombre_lignes = len(fichier.readlines())
+      fichier.close()
+      print("Le fichier ", nom_fichier, " contient ", nombre_lignes,
+            " lignes.")
+    else:
+      print("Le fichier ", nom_fichier, " n'existe pas.")
+
+  elif choix == '5':
+    fichier1 = input("Entrez le nom du premier fichier texte: ")
+    fichier2 = input("Entrez le nom du deuxième fichier texte: ")
+    mots_communs = []
+
+    with open(fichier1, "r") as f1:
+      for ligne in f1:
+        mots = ligne.split()
+        for mot in mots:
+          with open(fichier2, "r") as f2:
+            if mot in f2.read():
+              if mot not in mots_communs:
+                mots_communs.append(mot)
+
+    print("Les mots communs aux deux fichiers sont: ", mots_communs)
+
+  elif choix == '6':
+    nom_fichier = input("Entrez le nom du fichier: ")
+    position = int(input("Entrez la position où insérer la nouvelle ligne: "))
+    chaine = input("Entrez la chaine à insérer: ")
+
+    if os.path.isfile(nom_fichier):
+      with open(nom_fichier, "r") as f:
+        lignes = f.readlines()
+      if 0 <= position <= len(lignes):
+        lignes.insert(position, chaine + "\n")
+        with open(nom_fichier, "w") as f:
+          f.writelines(lignes)
+        print("La chaine ", chaine, " a été insérée à la position ", position,
+              " dans le fichier ", nom_fichier)
+      else:
+        print("La position ", position, " n'est pas valide pour le fichier ",
+              nom_fichier)
+    else:
+      print("Le fichier ", nom_fichier, " n'existe pas.")
+
+  elif choix == '7':
+
+    def saisir():
+      with open("résultats_STRI.txt", "w") as f:
+        n = int(input("Entrez le nombre d'étudiants: "))
+        for i in range(n):
+          numero = input(f"Entrez le numéro de l'étudiant {i+1}: ")
+          nom = input(f"Entrez le nom de l'étudiant {i+1}: ")
+          prenom = input(f"Entrez le prénom de l'étudiant {i+1}: ")
+          age = input(f"Entrez l'âge de l'étudiant {i+1}: ")
+          moyenne = input(f"Entrez la moyenne générale de l'étudiant {i+1}: ")
+
+          if float(moyenne) < 10:
+            mention = "Insuffisant"
+          elif float(moyenne) < 12:
+            mention = "Passable"
+          elif float(moyenne) < 14:
+            mention = "AB"
+          elif float(moyenne) < 16:
+            mention = "B"
+          else:
+            mention = "TB"
+
+          f.write(f"{numero};{nom};{prenom};{age};{moyenne};{mention}\n")
+
+    def admis():
+      with open("résultats_STRI.txt", "r") as f1:
+        with open("Admis_STRI.txt", "w") as f2:
+          for ligne in f1:
+            infos = ligne.split(";")
+            if infos[5].strip() != "Insuffisant":
+              f2.write(ligne)
+
+    def non_admis():
+      with open("résultats_STRI.txt", "r") as f1:
+        with open("Non_Admis_STRI.txt", "w") as f2:
+          for ligne in f1:
+            infos = ligne.split(";")
+            if infos[5].strip() == "Insuffisant":
+              f2.write(ligne)
+
+    def liste_mention(mention):
+      with open("Admis_STRI.txt", "r") as f1:
+        with open(f"{mention}_STRI.txt", "w") as f2:
+          for ligne in f1:
+            infos = ligne.split(";")
+            if infos[5].strip() == mention:
+              f2.write(
+                  f"{infos[0]};{infos[1]};{infos[2]};{infos[3]};{infos[4]}\n")
+
+    def stats_mention():
+      nb_etudiants = {
+          "Insuffisant": 0,
+          "Passable": 0,
+          "AB": 0,
+          "B": 0,
+          "TB": 0
+      }
+      with open("résultats_STRI.txt", "r") as f:
+        for ligne in f:
+          infos = ligne.split(";")
+          nb_etudiants[infos[5].strip()] += 1
+      nb_total = sum(nb_etudiants.values())
+      pct_etudiants = {}
+      for mention in nb_etudiants:
+        pct_etudiants[mention] = percentage(nb_etudiants[mention], nb_total)
+      return nb_etudiants, pct_etudiants
+
+    saisir()
+    admis()
+    non_admis()
+    liste_mention("Passable")
+    liste_mention("AB")
+    liste_mention("B")
+    liste_mention("TB")
+    nb_etudiants, pct_etudiants = stats_mention()
+    for mention in nb_etudiants:
+      print(
+          f"Nombre d'étudiants ayant la mention {mention}: {nb_etudiants[mention]}"
+      )
+      print(
+          f"Pourcentage d'étudiants ayant la mention {mention}: {pct_etudiants[mention]}"
+      )
+      with open(f"{mention}_STRI.txt", "r") as f:
+        print(f"Informations des étudiants ayant la mention {mention}:")
+        for ligne in f:
+          print(ligne.strip())
+      print()
+
+  elif choix == '8':
+    print("Au revoir !")
+    break
+
+  else:
+    print(
+        "Choix invalide. Veuillez choisir un exercice valide (1, 2, ... ,7 ou 8 pour quitter)."
+    )

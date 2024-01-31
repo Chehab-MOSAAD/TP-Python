@@ -1,0 +1,167 @@
+#Writer: Chehab MOSAAD - 1A Informatique - Programmation en python – Série 5
+
+print(
+    "Bonjour, \n C'est le TD Programmation en python – Série 5 (Fait par: Chehab MOSAAD)"
+)
+
+while True:
+  print("\nMenu des exercices :")
+  print("1. Exercice 1 - Les plateaux d’altitude")
+  print("2. Exercice 2 - Le tri aux trois couleurs")
+  print("3. Quitter\n")
+
+  choix = input("Choisissez un exercice (1, 2 ou 3 pour quitter) : ")
+
+  if choix == '1':
+
+    def premier_plateau(sequence):
+      #Renvoie la hauteur et la longueur du premier plateau de la séquence.
+      if not sequence:
+        return None, None
+      hauteur = sequence[0]
+      longueur = 1
+      for i in range(1, len(sequence)):
+        if sequence[i] == hauteur:
+          longueur += 1
+        else:
+          break
+      return hauteur, longueur
+
+    def nb_plateaux(sequence):
+      #Renvoie le nombre de plateaux d’une liste de nombres.
+      if not sequence:
+        return 0
+      nb = 1
+      for i in range(1, len(sequence)):
+        if sequence[i] != sequence[i - 1]:
+          nb += 1
+      return nb
+
+    def plus_long(sequence):
+      #Renvoie la longueur du plus grand plateau d’une liste de nombres.
+      if not sequence:
+        return 0
+      max_longueur = 1
+      longueur = 1
+      for i in range(1, len(sequence)):
+        if sequence[i] == sequence[i - 1]:
+          longueur += 1
+        else:
+          if longueur > max_longueur:
+            max_longueur = longueur
+          longueur = 1
+      if longueur > max_longueur:
+        max_longueur = longueur
+      return max_longueur
+
+    def nombre_max(sequence):
+      #Renvoie la longueur maximale des plateaux et le nombre de plateaux de longueur maximale d’une séquence.
+      if not sequence:
+        return 0, 0
+      max_longueur = 1
+      nb_max = 1
+      longueur = 1
+      for i in range(1, len(sequence)):
+        if sequence[i] == sequence[i - 1]:
+          longueur += 1
+        else:
+          if longueur > max_longueur:
+            max_longueur = longueur
+            nb_max = 1
+          elif longueur == max_longueur:
+            nb_max += 1
+          longueur = 1
+      if longueur > max_longueur:
+        max_longueur = longueur
+        nb_max = 1
+      elif longueur == max_longueur:
+        nb_max += 1
+      return max_longueur, nb_max
+
+    def coder(Tab):
+      #Renvoie la liste compressée d’une liste de valeurs.
+      if not Tab:
+        return []
+      Tab_comp = []
+      valeur = Tab[0]
+      longueur = 1
+      for i in range(1, len(Tab)):
+        if Tab[i] == valeur:
+          longueur += 1
+        else:
+          Tab_comp.append([valeur, longueur])
+          valeur = Tab[i]
+          longueur = 1
+      Tab_comp.append([valeur, longueur])
+      return Tab_comp
+
+    def decoder(description):
+      #Renvoie la liste de valeurs décrite par une liste compressée.
+      Tab = []
+      for plateau in description:
+        valeur = plateau[0]
+        longueur = plateau[1]
+        for i in range(longueur):
+          Tab.append(valeur)
+      return Tab
+
+    Tab = input("Entrez les éléments de la liste : ")
+    sous_chaines = Tab.split()
+    liste = list(map(int, sous_chaines))
+
+    hauteur, longueur = premier_plateau(Tab)
+    print("Le premier plateau de Tab a une hauteur de ", hauteur,
+          "et une longueur de ", longueur)
+
+    nb = nb_plateaux(Tab)
+    print("Tab a ", nb, " plateaux")
+
+    max_longueur = plus_long(Tab)
+    print("La longueur du plus grand plateau de Tab est ", max_longueur)
+
+    max_longueur, nb_max = nombre_max(Tab)
+    print("La longueur maximale des plateaux de Tab est ", max_longueur,
+          " et il y a ", nb_max, " plateaux de cette longueur")
+
+    Tab_comp = coder(Tab)
+    print("La liste compressée de Tab est ", Tab_comp)
+
+    Tab_dec = decoder(Tab_comp)
+    print("La liste décompressée de Tab_comp est ", Tab_dec)
+
+  elif choix == '2':
+
+    def Trier(T):
+      if not T:
+        return []
+
+      i = 0
+      j = 0
+      k = len(T) - 1
+
+      while i <= k:
+        if T[i] == "BLEU":
+          T[i], T[j] = T[j], T[i]
+          i += 1
+          j += 1
+        elif T[i] == "BLANC":
+          i += 1
+        else:
+          T[i], T[k] = T[k], T[i]
+          k -= 1
+      return T
+
+    T = input("Entrez les éléments de la liste séparés par des espaces : ")
+    Liste = T.split()
+
+    tableau_trie = Trier(Liste)
+    print("Le tableau trié est :", tableau_trie)
+
+  elif choix == '3':
+    print("Au revoir !")
+    break
+
+  else:
+    print(
+        "Choix invalide. Veuillez choisir un exercice valide (1, 2 ou 3 pour quitter)."
+    )
