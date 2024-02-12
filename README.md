@@ -1,4 +1,17 @@
+La traduction française est ci-dessous. 👇
 <body>
+    <h1>Learning and applying Python programming</h1>
+    <p>In this work, I completed six series of Python programming exercises, which allowed me to familiarize myself with the basic concepts of the language and develop my skills. Here is an overview of what I did in each series:</p>
+    <ul>
+        <li>Series 1: I wrote functions that allow to input and manipulate integers, student grades, passwords, IP addresses and employees. I used control structures, operators, inputs and outputs.</li>
+        <li>Series 2: I wrote programs that allow to manipulate strings and lists. I used for loops, conditions, operations on strings and lists, and functions.</li>
+        <li>Series 3: I wrote programs that allow to manipulate IP addresses and subnet masks. I used binary operations, type conversions, logical operations and functions.</li>
+        <li>Series 4: I wrote programs that allow to encrypt and decrypt messages with substitution cipher methods. I used transformers, neural networks, operations on strings and lists, and functions.</li>
+        <li>Series 5: I wrote programs that allow to manipulate lists of values and sort them according to criteria. I used lists, loops, conditions, operations on lists, and functions.</li>
+        <li>Series 6: I wrote programs that allow to manipulate text files and perform operations on their contents. I used files, strings, lists, matrices, statistics, and functions.</li>
+    </ul>
+    <p>This work allowed me to discover the richness and diversity of Python programming, and to prepare myself for more advanced and varied applications. I enjoyed being able to solve concrete and innovative problems. I am proud of the work done and I wish to continue to progress in Python.</p>
+    <hr>
     <h1>Apprentissage et application de la programmation en Python</h1>
     <p>Dans ce travail, j'ai réalisé six séries d'exercices de programmation en Python, qui m'ont permis de me familiariser avec les concepts de base du langage et de développer mes compétences. Voici un aperçu de ce que j'ai fait dans chaque série :</p>
     <ul>
